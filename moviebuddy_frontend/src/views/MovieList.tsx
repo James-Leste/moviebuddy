@@ -99,11 +99,8 @@ export default function MovieList() {
                     {movieList.map((movie) => (
                         <div key={movie.id}>
                             <Card className='py-4'>
-                                <CardHeader className='pb-0 pt-2 px-4 flex-col items-start overflow-x-hidden w-60'>
-                                    <p className='text-tiny uppercase font-bold whitespace-nowrap '>
-                                        <span className='font-thin'>
-                                            Title:{' '}
-                                        </span>
+                                <CardHeader className='pb-0 pt-2 px-4 flex-col items-start w-60'>
+                                    <p className='text-tiny uppercase font-bold whitespace-nowrap hover:whitespace-normal w-full overflow-hidden text-ellipsis ...'>
                                         {movie.title}
                                     </p>
                                     <small className='text-default-500'>
