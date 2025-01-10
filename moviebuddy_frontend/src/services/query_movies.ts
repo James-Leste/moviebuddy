@@ -9,9 +9,10 @@ export async function queryMovies(
     page: number = 1
 ): Promise<any> {
     try {
-        const response = await axios.get(`${API_URL}/${page}`, {
+        const response = await axios.get(`${API_URL}`, {
             params: {
                 name: name,
+                page: page,
             },
         })
         return response.data

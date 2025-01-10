@@ -104,7 +104,7 @@ def search_movie(name: str, page: int = 1):
     response = requests.get(f"{SEARCH_URL}?query={name}&api_key={TMDB_API_KEY}&page={page}")
     return response.json()
 
-@app.get('/movies/{page}')
+@app.get('/movies')
 def get_movies(name: str, page: int | None = 1):
     return search_movie(name, page)
 
