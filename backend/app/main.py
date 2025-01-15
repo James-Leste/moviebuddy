@@ -1,3 +1,4 @@
+from contextlib import asynccontextmanager
 from typing import Annotated
 import os
 import requests
@@ -8,12 +9,20 @@ from fastapi.security import OAuth2PasswordBearer
 
 from sqlmodel import SQLModel
 from .models.user import Moviebuddies
+from .db.db import engine
 from .db.db import create_db_and_tables
 
 load_dotenv()
 
-app = FastAPI()
-create_db_and_tables()
+
+
+@asynccontextmanager
+async def initialization(app: FastAPI):
+    create_db_and_tables()
+    yield
+    engine.dispose()
+
+app = FastAPI(lifespan=initialization)
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
