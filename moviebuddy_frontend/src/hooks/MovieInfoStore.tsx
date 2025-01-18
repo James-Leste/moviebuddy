@@ -8,29 +8,35 @@ interface MovieInfoStore {
     updateMeta: (newMeta: MovieModel) => void
 }
 
+const initialMovieMeta: MovieModel = {
+    id: -1,
+    title: 'not yet',
+    popularity: 0,
+    image: '',
+}
+
 interface MovieListStore {
     movies: MovieListPagnation
     updateMovies: (newMovies: MovieListPagnation) => void
 }
 
+const initialMovieListPagnation: MovieListPagnation = {
+    pageNumber: 1,
+    movieList: [],
+}
+
 export const useMovieInfoStore = create<MovieInfoStore>((set) => ({
-    meta: {
-        id: -1,
-        title: 'not yet',
-        popularity: 0,
-        image: '',
-    },
+    meta: initialMovieMeta,
     updateMeta: (newMeta: MovieModel) => {
         set({ meta: newMeta })
     },
+    reset: () => set({ meta: initialMovieMeta }),
 }))
 
 export const useMovieListStore = create<MovieListStore>((set) => ({
-    movies: {
-        pageNumber: 1,
-        movieList: [],
-    },
+    movies: initialMovieListPagnation,
     updateMovies: (newMovies: MovieListPagnation) => {
         set({ movies: newMovies })
     },
+    reset: () => set({ movies: initialMovieListPagnation }),
 }))

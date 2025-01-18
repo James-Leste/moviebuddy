@@ -7,50 +7,9 @@ import {
     CardHeader,
     CardBody,
 } from '@nextui-org/react'
-import { queryMovies } from '@/services/query_movies'
-import { MovieListPagnation, MovieModel } from '@/types'
 import { useMovieInfoStore, useMovieListStore } from '@/hooks/MovieInfoStore'
 import { useState } from 'react'
-
-async function getMovieInfo(name: string) {
-    const data = await queryMovies(name)
-    if (data.results.length === 0) {
-        console.log('No movie found')
-        return
-    }
-    const resultMovie: MovieModel = {
-        id: data.results[0].id,
-        title: data.results[0].title,
-        image: data.results[0].poster_path,
-        popularity: data.results[0].popularity,
-    }
-
-    useMovieInfoStore.setState({ meta: resultMovie })
-    return resultMovie
-}
-
-async function getMovieList(name: string, page: number = 1) {
-    const data = await queryMovies(name, page)
-    if (data.results.length === 0) {
-        console.log('No movie found')
-        return
-    }
-    const results: any[] = data.results
-    const resultMovieList: MovieListPagnation = {
-        pageNumber: data.page,
-        movieList: results.map((movie) => {
-            return {
-                id: movie.id,
-                title: movie.title,
-                image: movie.poster_path,
-                popularity: movie.popularity,
-            }
-        }),
-    }
-
-    useMovieListStore.setState({ movies: resultMovieList })
-    return resultMovieList
-}
+import { getMovieInfo, getMovieList } from '@/actions/movieSearch'
 
 export default function MovieList() {
     const [name, setName] = useState('')
