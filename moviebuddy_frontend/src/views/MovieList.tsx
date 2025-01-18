@@ -1,15 +1,9 @@
 /** @format */
-import {
-    Card,
-    Image,
-    Button,
-    Input,
-    CardHeader,
-    CardBody,
-} from "@heroui/react"
+import { Card, Image, Button, Input, CardHeader, CardBody } from '@heroui/react'
 import { useMovieInfoStore, useMovieListStore } from '@/hooks/MovieInfoStore'
 import { useState } from 'react'
 import { getMovieInfo, getMovieList } from '@/actions/movieSearch'
+import Topbar from '@/components/topbar'
 
 export default function MovieList() {
     const [name, setName] = useState('')
@@ -17,6 +11,10 @@ export default function MovieList() {
     const movieList = useMovieListStore((state) => state.movies.movieList)
     return (
         <>
+            <div className='w-screen'>
+                <Topbar></Topbar>
+            </div>
+
             <div className='flex flex-col items-center'>
                 <div className='flex flex-row items-center w-80'>
                     <Input
@@ -31,8 +29,12 @@ export default function MovieList() {
 
                 <div className='flex flex-row w-full overflow-x-scroll'>
                     {movieList.map((movie) => (
-                        <div key={movie.id}>
-                            <Card className='py-4'>
+                        <div key={movie.id} className='mx-2 py-2'>
+                            <Card
+                                className='py-4'
+                                onPress={() => console.log('clicked')}
+                                isPressable
+                            >
                                 <CardHeader className='pb-0 pt-2 px-4 flex-col items-start w-60'>
                                     <p className='text-tiny uppercase font-bold whitespace-nowrap hover:whitespace-normal w-full overflow-hidden text-ellipsis ...'>
                                         {movie.title}
