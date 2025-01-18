@@ -6,7 +6,7 @@ import {
     Input,
     CardHeader,
     CardBody,
-} from '@nextui-org/react'
+} from "@heroui/react"
 import { useMovieInfoStore, useMovieListStore } from '@/hooks/MovieInfoStore'
 import { useState } from 'react'
 import { getMovieInfo, getMovieList } from '@/actions/movieSearch'
@@ -25,37 +25,9 @@ export default function MovieList() {
                         value={name}
                         onValueChange={setName}
                     />
-                    <Button onPress={() => getMovieInfo(name)}>click me</Button>
+                    {/* <Button onPress={() => getMovieInfo(name)}>click me</Button> */}
+                    <Button onPress={() => getMovieList(name)}>click me</Button>
                 </div>
-                {/* <div>
-                    <p>Name: {movieInfo.title}</p>
-                    <Image className='object-cover' src={url} width={200} />
-                </div> */}
-
-                <Card className='py-4 w-80'>
-                    <CardHeader className='pb-0 pt-2 px-4 flex-col items-start overflow-x-hidden w-60'>
-                        <p className='text-tiny uppercase font-bold whitespace-nowrap '>
-                            <span className='font-thin'>Title: </span>
-                            {movieInfo.title}
-                        </p>
-                        <small className='text-default-500'>
-                            <span className='font-thin'>Popularity: </span>
-                            {movieInfo.popularity}
-                        </small>
-                        {/* <h4 className='font-bold text-large'>
-                                Frontend Radio
-                            </h4> */}
-                    </CardHeader>
-                    <CardBody className='overflow-visible py-2 items-center'>
-                        <Image
-                            alt='Card background'
-                            className='object-cover rounded-xl'
-                            src={`https://image.tmdb.org/t/p/original/${movieInfo.image}`}
-                            width={270}
-                        />
-                    </CardBody>
-                </Card>
-                <Button onPress={() => getMovieList(name)}>click me</Button>
 
                 <div className='flex flex-row w-full overflow-x-scroll'>
                     {movieList.map((movie) => (
