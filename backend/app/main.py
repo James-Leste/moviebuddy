@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 
 from fastapi import Depends, FastAPI, HTTPException, Query
 from fastapi.security import OAuth2PasswordBearer
+from fastapi.middleware.cors import CORSMiddleware
 
 from sqlmodel import SQLModel
 from .models.user import Moviebuddies
@@ -23,6 +24,12 @@ async def initialization(app: FastAPI):
 
 app = FastAPI(lifespan=initialization)
 app.include_router(user.router, prefix="/api/v1", tags=["user"])
+app.add_middleware(
+  CORSMiddleware,
+  allow_origins = ["*"],
+  allow_methods = ["*"],
+  allow_headers = ["*"]
+)
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
