@@ -8,7 +8,7 @@ import {
     CardBody,
 } from '@nextui-org/react'
 import { queryMovies } from '@/services/query_movies'
-import { MovieModel } from '@/types'
+import { MovieListPagnation, MovieModel } from '@/types'
 import { useMovieInfoStore, useMovieListStore } from '@/hooks/MovieInfoStore'
 import { useState } from 'react'
 
@@ -29,21 +29,24 @@ async function getMovieInfo(name: string) {
     return resultMovie
 }
 
-async function getMovieList(name: string) {
-    const data = await queryMovies(name)
+async function getMovieList(name: string, page: number = 1) {
+    const data = await queryMovies(name, page)
     if (data.results.length === 0) {
         console.log('No movie found')
         return
     }
     const results: any[] = data.results
-    const resultMovieList: MovieModel[] = results.map((movie) => {
-        return {
-            id: movie.id,
-            title: movie.title,
-            image: movie.poster_path,
-            popularity: movie.popularity,
-        }
-    })
+    const resultMovieList: MovieListPagnation = {
+        pageNumber: data.page,
+        movieList: results.map((movie) => {
+            return {
+                id: movie.id,
+                title: movie.title,
+                image: movie.poster_path,
+                popularity: movie.popularity,
+            }
+        }),
+    }
 
     useMovieListStore.setState({ movies: resultMovieList })
     return resultMovieList
@@ -52,7 +55,7 @@ async function getMovieList(name: string) {
 export default function MovieList() {
     const [name, setName] = useState('')
     const movieInfo = useMovieInfoStore((state) => state.meta)
-    const movieList = useMovieListStore((state) => state.movies)
+    const movieList = useMovieListStore((state) => state.movies.movieList)
     return (
         <>
             <div className='flex flex-col items-center'>

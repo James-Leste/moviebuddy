@@ -1,7 +1,7 @@
 /** @format */
 
 import { create } from 'zustand'
-import { MovieModel } from '@/types'
+import { MovieModel, MovieListPagnation } from '@/types'
 
 interface MovieInfoStore {
     meta: MovieModel
@@ -9,8 +9,8 @@ interface MovieInfoStore {
 }
 
 interface MovieListStore {
-    movies: MovieModel[]
-    updateMovies: (newMovies: MovieModel[]) => void
+    movies: MovieListPagnation
+    updateMovies: (newMovies: MovieListPagnation) => void
 }
 
 export const useMovieInfoStore = create<MovieInfoStore>((set) => ({
@@ -26,8 +26,11 @@ export const useMovieInfoStore = create<MovieInfoStore>((set) => ({
 }))
 
 export const useMovieListStore = create<MovieListStore>((set) => ({
-    movies: [],
-    updateMovies: (newMovies: MovieModel[]) => {
+    movies: {
+        pageNumber: 1,
+        movieList: [],
+    },
+    updateMovies: (newMovies: MovieListPagnation) => {
         set({ movies: newMovies })
     },
 }))

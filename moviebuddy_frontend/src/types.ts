@@ -6,3 +6,8 @@ export interface MovieModel {
     image: string
     popularity: number
 }
+
+export interface MovieListPagnation {
+    pageNumber: number
+    movieList: MovieModel[]
+}
