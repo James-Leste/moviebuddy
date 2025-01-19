@@ -9,8 +9,9 @@ interface MovieInfoStore {
 }
 
 const initialMovieMeta: MovieModel = {
-    id: -1,
+    id: '',
     title: 'not yet',
+    overview: '',
     popularity: 0,
     image: '',
 }

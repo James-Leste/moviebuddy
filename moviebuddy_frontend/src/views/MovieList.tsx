@@ -1,7 +1,21 @@
 /** @format */
-import { Card, Image, Button, Input, CardHeader, CardBody } from '@heroui/react'
+import {
+    Card,
+    Image,
+    Button,
+    Input,
+    CardHeader,
+    CardBody,
+    Modal,
+    ModalContent,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
+    useDisclosure,
+    useDraggable,
+} from '@heroui/react'
 import { useMovieInfoStore, useMovieListStore } from '@/hooks/MovieInfoStore'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { getMovieInfo, getMovieList } from '@/actions/movieSearch'
 import Topbar from '@/components/topbar'
 
@@ -9,11 +23,48 @@ export default function MovieList() {
     const [name, setName] = useState('')
     const movieInfo = useMovieInfoStore((state) => state.meta)
     const movieList = useMovieListStore((state) => state.movies.movieList)
+    const { isOpen, onOpen, onOpenChange } = useDisclosure()
+
     return (
         <>
             <div className='w-screen'>
                 <Topbar></Topbar>
             </div>
+
+            <Modal isOpen={isOpen} onOpenChange={onOpenChange} size='lg'>
+                <ModalContent>
+                    {(onClose) => (
+                        <>
+                            <ModalHeader className='flex flex-col gap-1'>
+                                {movieInfo.title}
+                            </ModalHeader>
+                            <ModalBody className='flex flex-row justify-center'>
+                                <div className='w-1/2'>
+                                    <Image
+                                        src={`https://image.tmdb.org/t/p/original/${movieInfo.image}`}
+                                        alt='Card background'
+                                    />
+                                </div>
+                                <p className='w-1/2 h-full'>
+                                    {movieInfo.overview}
+                                </p>
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button
+                                    color='danger'
+                                    variant='light'
+                                    onPress={onClose}
+                                >
+                                    Close
+                                </Button>
+                                <Button color='primary' onPress={onClose}>
+                                    Action
+                                </Button>
+                            </ModalFooter>
+                        </>
+                    )}
+                </ModalContent>
+            </Modal>
 
             <div className='flex flex-col items-center'>
                 <div className='flex flex-row items-center w-80'>
@@ -32,7 +83,10 @@ export default function MovieList() {
                         <div key={movie.id} className='mx-2 py-2'>
                             <Card
                                 className='py-4'
-                                onPress={() => console.log('clicked')}
+                                onPress={async () => {
+                                    await getMovieInfo(movie.id)
+                                    onOpen()
+                                }}
                                 isPressable
                             >
                                 <CardHeader className='pb-0 pt-2 px-4 flex-col items-start w-60'>

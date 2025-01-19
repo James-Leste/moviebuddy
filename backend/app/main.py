@@ -31,20 +31,33 @@ app.add_middleware(
   allow_headers = ["*"]
 )
 
+MOVIES_SEARCH_BASE_URL = 'https://api.themoviedb.org/3/search/movie'
+MOVIE_SEARCH_BASE_URL = 'https://api.themoviedb.org/3/movie'
+
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 TMDB_API_KEY = os.getenv("TMDB_API_KEY")
-SEARCH_URL = os.getenv("SEARCH_URL")
 
-def search_movie(name: str, page: int = 1):
+
+def search_movies(name: str, page: int = 1):
     if not TMDB_API_KEY:
         raise HTTPException(status_code=500, detail="API key not found")
-    response = requests.get(f"{SEARCH_URL}?query={name}&api_key={TMDB_API_KEY}&page={page}")
+    response = requests.get(f"{MOVIES_SEARCH_BASE_URL}?query={name}&api_key={TMDB_API_KEY}&page={page}")
     return response.json()
 
-@app.get('/movies')
+def search_movie_by_name(id: str):
+    if not TMDB_API_KEY:
+        raise HTTPException(status_code=500, detail="API key not found")
+    response = requests.get(f"{MOVIE_SEARCH_BASE_URL}/{id}?api_key={TMDB_API_KEY}")
+    return response.json()
+
+@app.get('/movie/search')
 def get_movies(name: str, page: int | None = 1):
-    return search_movie(name, page)
+    return search_movies(name, page)
+
+@app.get('/movie/{id}')
+def get_movies(id: str):
+    return search_movie_by_name(id)
 
 
 @app.get("/items/")

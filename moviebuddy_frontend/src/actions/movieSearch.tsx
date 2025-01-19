@@ -1,24 +1,26 @@
 /** @format */
 
-import { queryMovies } from '@/services/query_movies'
+import { queryMovies, getMovieById } from '@/services/query_movies'
 import { MovieListPagnation, MovieModel } from '@/types'
 import { useMovieInfoStore, useMovieListStore } from '@/hooks/MovieInfoStore'
 
-async function getMovieInfo(name: string) {
-    const data = await queryMovies(name)
+async function getMovieInfo(id: string) {
+    const data = await getMovieById(id)
     let resultMovie: MovieModel
-    if (data.results.length === 0) {
+    if (data.success === false) {
         console.log('No movie found')
         useMovieInfoStore.setState(useMovieInfoStore.getInitialState())
         return
     } else {
         resultMovie = {
-            id: data.results[0].id,
-            title: data.results[0].title,
-            image: data.results[0].poster_path,
-            popularity: data.results[0].popularity,
+            id: data.id,
+            title: data.title,
+            overview: data.overview,
+            image: data.poster_path,
+            popularity: data.popularity,
         }
     }
+    console.log(data)
 
     useMovieInfoStore.setState({ meta: resultMovie })
     return resultMovie
@@ -38,12 +40,12 @@ async function getMovieList(name: string, page: number = 1) {
             return {
                 id: movie.id,
                 title: movie.title,
+                overview: movie.overview,
                 image: movie.poster_path,
                 popularity: movie.popularity,
             }
         }),
     }
-
     useMovieListStore.setState({ movies: resultMovieList })
     return resultMovieList
 }

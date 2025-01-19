@@ -1,8 +1,9 @@
 /** @format */
 
 export interface MovieModel {
-    id: number
+    id: string
     title: string
+    overview: string
     image: string
     popularity: number
 }
