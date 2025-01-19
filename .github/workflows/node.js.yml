@@ -34,6 +34,6 @@ jobs:
     - name: Build the artifact
       run: |
         npm ci
-        npm build
+        npm run build
           
 
