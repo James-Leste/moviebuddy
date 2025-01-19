@@ -13,6 +13,10 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./moviebuddy_frontend
 
     strategy:
       matrix:
@@ -27,7 +31,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - name: Build the artifact
-      working-directory: ./moviebuddy_frontend
       run: |
         npm ci
         npm build
