@@ -36,6 +36,7 @@ async function getMovieList(name: string, page: number = 1) {
     const results: any[] = data.results
     const resultMovieList: MovieListPagnation = {
         pageNumber: data.page,
+        totalPages: data.total_pages,
         movieList: results.map((movie) => {
             return {
                 id: movie.id,

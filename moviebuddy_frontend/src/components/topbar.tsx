@@ -11,7 +11,7 @@ import {
 
 export default function Topbar() {
     return (
-        <Navbar shouldHideOnScroll>
+        <Navbar shouldHideOnScroll maxWidth='full'>
             <NavbarBrand>
                 <p className='font-bold text-inherit'>Movie Buddy</p>
             </NavbarBrand>
