@@ -10,5 +10,6 @@ export interface MovieModel {
 
 export interface MovieListPagnation {
     pageNumber: number
+    totalPages: number
     movieList: MovieModel[]
 }

@@ -23,6 +23,7 @@ interface MovieListStore {
 
 const initialMovieListPagnation: MovieListPagnation = {
     pageNumber: 1,
+    totalPages: 1,
     movieList: [],
 }
 
