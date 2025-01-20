@@ -37,7 +37,8 @@ export default function MovieList() {
 
             <div className='flex flex-col items-center'>
                 <form
-                    onSubmit={() => {
+                    onSubmit={(event) => {
+                        event.preventDefault()
                         getMovieList(name)
                         setCurrentPage(1)
                     }}
@@ -78,7 +79,6 @@ export default function MovieList() {
                                     <Image
                                         alt='Card background'
                                         className='object-cover rounded-xl'
-                                        fallbackSrc='https://via.placeholder.com/270x360'
                                         src={`https://image.tmdb.org/t/p/original/${movie.image}`}
                                         width={270}
                                         height={360}
