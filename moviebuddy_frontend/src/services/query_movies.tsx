@@ -2,14 +2,14 @@
 
 import axios from 'axios'
 
-const API_URL = 'http://localhost:8000/movie' // Replace with your actual API URL
+const API_URL = import.meta.env.VITE_LOCAL_URL || '/api' // Replace with your actual API URL
 
 export async function queryMovies(
     name: string,
     page: number = 1
 ): Promise<any> {
     try {
-        const response = await axios.get(`${API_URL}/search`, {
+        const response = await axios.get(`${API_URL}/movie/search`, {
             params: {
                 name: name,
                 page: page,
@@ -24,7 +24,7 @@ export async function queryMovies(
 
 export async function getMovieById(id: string): Promise<any> {
     try {
-        const response = await axios.get(`${API_URL}/${id}`)
+        const response = await axios.get(`${API_URL}/movie/${id}`)
         return response.data
     } catch (error) {
         console.error('Error querying movies:', error)

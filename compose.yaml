@@ -14,8 +14,10 @@ services:
       dockerfile: ./Dockerfile
     environment:
       NODE_ENV: production
-    ports:
-      - 5173:3000
+    expose:
+      - 3000
+    networks:
+      - app-network
   
   backend:
     build:
@@ -23,8 +25,27 @@ services:
       dockerfile: ./Dockerfile
     environment:
       TMDB_API_KEY: ${TMDB_API_KEY}
+    expose:
+      - 8080
+    networks:
+      - app-network
+  
+  nginx:
+    image: nginx:alpine
     ports:
-      - 8000:8080
+      - 80:80
+    volumes:
+      - ./default.conf:/etc/nginx/nginx.conf
+      # - ./moviebuddy_frontend/dist:/usr/share/nginx/html
+    depends_on:
+      #- frontend
+      - backend
+    networks:
+      - app-network
+  
+networks:
+  app-network:
+    driver: bridge
   
 
 # The commented out section below is an example of how to define a PostgreSQL
