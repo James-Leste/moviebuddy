@@ -17,8 +17,8 @@ export default defineConfig({
         },
     },
     server: {
-        proxy: {
-            '/api': 'http://backend:8000',
-        },
+        // proxy: {
+        //     '/api': 'http://backend:8000',
+        // },
     },
 })
