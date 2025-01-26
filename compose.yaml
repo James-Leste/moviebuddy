@@ -23,8 +23,7 @@ services:
     build:
       context: ./backend
       dockerfile: ./Dockerfile
-    environment:
-      TMDB_API_KEY: ${TMDB_API_KEY}
+    env_file: ./.env.local
     expose:
       - 8080
     networks:
