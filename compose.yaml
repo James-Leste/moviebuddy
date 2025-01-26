@@ -37,7 +37,7 @@ services:
       - ./default.conf:/etc/nginx/nginx.conf
       # - ./moviebuddy_frontend/dist:/usr/share/nginx/html
     depends_on:
-      #- frontend
+      - frontend
       - backend
     networks:
       - app-network
