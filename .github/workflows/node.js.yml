@@ -12,11 +12,11 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest #[self-hosted, ubuntu, ec2]
     defaults:
       run:
         shell: bash
-        working-directory: ./moviebuddy_frontend
+        working-directory: ./
 
     strategy:
       matrix:
@@ -24,16 +24,36 @@ jobs:
       # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
+    - name: Checkout
+      uses: actions/checkout@v4
       with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-        cache-dependency-path: './moviebuddy_frontend/package-lock.json'
-    - name: Build the artifact
+        path: main
+    
+    - name: Generate hash for tag
+      run: echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ vars.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_TOKEN }}
+
+    - name: Build and show all the images
+      working-directory: ./main
       run: |
-        npm ci
-        npm run build
+        docker compose build
+        docker images
+    
+    # - uses: actions/checkout@v4
+    # - name: Use Node.js ${{ matrix.node-version }}
+    #   uses: actions/setup-node@v4
+    #   with:
+    #     node-version: ${{ matrix.node-version }}
+    #     cache: 'npm'
+    #     cache-dependency-path: './moviebuddy_frontend/package-lock.json'
+    # - name: Build the artifact
+    #   run: |
+    #     npm ci
+    #     npm run build
           
 
