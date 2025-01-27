@@ -29,6 +29,8 @@ jobs:
       with:
         username: ${{ vars.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
+    - name: test
+      run: echo "${{ vars.DOCKER_USERNAME }}"
     # - uses: actions/checkout@v4
     # - name: Use Node.js ${{ matrix.node-version }}
     #   uses: actions/setup-node@v4
