@@ -34,6 +34,13 @@ jobs:
       with:
         username: ${{ vars.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_TOKEN }}
+
+    - name: Build and show all the images
+      working-directory: ./main
+      run: |
+        docker compose build
+        docker images
+    
     # - uses: actions/checkout@v4
     # - name: Use Node.js ${{ matrix.node-version }}
     #   uses: actions/setup-node@v4
