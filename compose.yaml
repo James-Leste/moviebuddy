@@ -18,7 +18,7 @@ services:
       - app-network
   
   backend:
-    image: james0720/moviebuddy-frontend:latest
+    image: james0720/moviebuddy-backend:latest
     env_file: ./.env.local
     expose:
       - 8080
