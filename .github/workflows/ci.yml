@@ -35,14 +35,20 @@ jobs:
     - name: Login to Docker Hub
       uses: docker/login-action@v3
       with:
-        username: ${{ vars.DOCKER_USERNAME }}
+        username: ${{ vars.DOCKER_EMAIL }}
         password: ${{ secrets.DOCKER_TOKEN }}
 
-    - name: Build and show all the images
-      working-directory: ./main
+    - name: Build and push frontend Docker images
+      working-directory: ./main/moviebuddy_frontend
       run: |
-        docker compose build
-        docker images
+        docker build . -t ${{ vars.DOCKER_USERNAME }}/moviebuddy-frontend:latest --platform linux/amd64
+        docker push james0720/moviebuddy-frontend
+    
+    - name: Build and push backend Docker images
+      working-directory: ./main/backend
+      run: |
+        docker build . -t ${{ vars.DOCKER_USERNAME }}/moviebuddy-backend:latest --platform linux/amd64
+        docker push ${{ vars.DOCKER_USERNAME }}/moviebuddy-backend
     
     # - uses: actions/checkout@v4
     # - name: Use Node.js ${{ matrix.node-version }}
