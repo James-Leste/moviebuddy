@@ -9,9 +9,7 @@
 # https://github.com/docker/awesome-compose
 services:
   frontend:
-    build:
-      context: ./moviebuddy_frontend
-      dockerfile: ./Dockerfile
+    image: james0720/moviebuddy-frontend:latest
     environment:
       NODE_ENV: production
     expose:
@@ -20,9 +18,7 @@ services:
       - app-network
   
   backend:
-    build:
-      context: ./backend
-      dockerfile: ./Dockerfile
+    image: james0720/moviebuddy-frontend:latest
     env_file: ./.env.local
     expose:
       - 8080
