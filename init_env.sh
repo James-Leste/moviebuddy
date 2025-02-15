@@ -1,17 +1,30 @@
-key=''
-ip=''
+unset -v key
+unset -v ip
 print_usage() {
     printf "Usage: ..."
 }
 
 while getopts 'k:p:' flag; do
     case "${flag}" in
-        k) key="${OPTARG}" ;;
-        p) ip="${OPTARG}" ;;
-        *) print_usage
-        exit 1 ;;
+        k) 
+            key="${OPTARG}" 
+            ;;
+        p) 
+            ip="${OPTARG}" 
+            ;;
+        *) 
+            print_usage;
+            exit 1 
+            ;;
     esac
 done
+
+shift "$(( OPTIND - 1 ))"
+
+if [ -z "$key" ] || [ -z "$ip" ]; then
+        echo 'Missing -k or -p' >&2
+        exit 1
+fi
 
 touch ./moviebuddy_frontend/.env.{production,development}.local ./backend/.env .env.local
 
