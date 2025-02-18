@@ -37,6 +37,11 @@ jobs:
       with:
         username: ${{ vars.DOCKER_EMAIL }}
         password: ${{ secrets.DOCKER_TOKEN }}
+    
+    - name: Patch the application
+      working-directory: ./main
+      run: |
+        ./init_env.sh -k ${{ secrets.API_KEY }} -p ${{ vars.EC2_HOST }}
 
     - name: Build and push frontend Docker images
       working-directory: ./main/moviebuddy_frontend
@@ -50,16 +55,34 @@ jobs:
         docker build . -t ${{ vars.DOCKER_USERNAME }}/moviebuddy-backend:latest --platform linux/amd64
         docker push ${{ vars.DOCKER_USERNAME }}/moviebuddy-backend
     
-    # - uses: actions/checkout@v4
-    # - name: Use Node.js ${{ matrix.node-version }}
-    #   uses: actions/setup-node@v4
-    #   with:
-    #     node-version: ${{ matrix.node-version }}
-    #     cache: 'npm'
-    #     cache-dependency-path: './moviebuddy_frontend/package-lock.json'
-    # - name: Build the artifact
-    #   run: |
-    #     npm ci
-    #     npm run build
-          
+  deploy:
+    if: ${{ always() }}
+    needs: [build]
 
+    runs-on: ubuntu-latest #[self-hosted, ubuntu, ec2]
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./
+
+    steps:
+    - name: Login
+      uses: appleboy/ssh-action@v0.1.10
+      with:
+        host: ${{ vars.EC2_HOST }}
+        username: ${{ vars.EC2_USER }}
+        key: ${{ secrets.EC2_PRIVATE_KEY }}
+        port: 22
+        script: |
+          cd ~
+          if [ ! -d "moviebuddy" ]; then
+              git clone git@github.com:James-Leste/moviebuddy.git
+          else
+              cd moviebuddy
+              git pull origin main
+          fi
+          cd ~/moviebuddy
+          docker compose down
+          docker compose pull
+          docker compose up -d
+          docker image prune -a -f

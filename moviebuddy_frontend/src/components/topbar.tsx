@@ -13,7 +13,7 @@ export default function Topbar() {
     return (
         <Navbar shouldHideOnScroll maxWidth='full'>
             <NavbarBrand>
-                <p className='font-bold text-inherit'>Movie Buddy</p>
+                <p className='font-bold text-inherit'>Movie Buddy V0.1</p>
             </NavbarBrand>
             <NavbarContent className='hidden sm:flex gap-4' justify='center'>
                 <NavbarItem>
