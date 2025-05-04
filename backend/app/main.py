@@ -1,8 +1,10 @@
 from contextlib import asynccontextmanager
 from typing import Annotated
 import os
+import uuid
 import requests
 from dotenv import load_dotenv
+from pydantic import BaseModel, Field
 
 from fastapi import Depends, FastAPI, HTTPException, Query
 from fastapi.security import OAuth2PasswordBearer
@@ -39,8 +41,23 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 TMDB_API_KEY = os.getenv("TMDB_API_KEY")
 
+class MovieFavor(BaseModel):
+    user_id: str
+    movie_id: str
+    favor: bool = False
 
-def search_movies(name: str, page: int = 1):
+class User(BaseModel):
+    uid: uuid.UUID
+    username: str = Field(max_length=10)
+    friend_list: list[str] = []
+    movie_list: list[str] = []
+    movie_favor_map: list[MovieFavor] = []
+
+@app.post("/user/ori")
+def repeatUser(user: User):
+    return user
+
+def search_movies(name: str, page: int | None = 1):
     if not TMDB_API_KEY:
         raise HTTPException(status_code=500, detail="API key not found")
     response = requests.get(f"{MOVIES_SEARCH_BASE_URL}?query={name}&api_key={TMDB_API_KEY}&page={page}")
