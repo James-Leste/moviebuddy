@@ -32,6 +32,7 @@ echo "TMDB_API_KEY = '$key'" > ./.env.local
 echo "VITE_API_URL = 'http://localhost:8000/api'" > ./moviebuddy_frontend/.env.development.local
 echo "VITE_API_URL = 'http://$ip/api'" > ./moviebuddy_frontend/.env.production.local
 echo "TMDB_API_KEY = '$key'" > ./backend/.env
+echo "DB_URL = 'sqlite:///./database.db'" > ./backend/.env
 
 echo "ENV are ready"
 
