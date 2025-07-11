@@ -47,7 +47,7 @@ jobs:
       working-directory: ./main/moviebuddy_frontend
       run: |
         docker build . -t ${{ vars.DOCKER_USERNAME }}/moviebuddy-frontend:latest --platform linux/amd64
-        docker push james0720/moviebuddy-frontend
+        docker push ${{ vars.DOCKER_USERNAME }}/moviebuddy-frontend
     
     - name: Build and push backend Docker images
       working-directory: ./main/backend

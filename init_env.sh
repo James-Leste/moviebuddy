@@ -1,3 +1,4 @@
+#!/bin/zsh
 unset -v key
 unset -v ip
 print_usage() {
@@ -29,10 +30,11 @@ fi
 touch ./moviebuddy_frontend/.env.{production,development}.local ./backend/.env .env.local
 
 echo "TMDB_API_KEY = '$key'" > ./.env.local
-echo "VITE_API_URL = 'http://localhost:8000/api'" > ./moviebuddy_frontend/.env.development.local
-echo "VITE_API_URL = 'http://$ip/api'" > ./moviebuddy_frontend/.env.production.local
+echo "DB_URL = 'sqlite:///./database.db'" >> ./.env.local
+#echo "VITE_API_URL = 'http://localhost:8000/api/v1'" > ./moviebuddy_frontend/.env.development.local
+echo "VITE_API_URL = 'http://$ip/api/'" > ./moviebuddy_frontend/.env.production.local
 echo "TMDB_API_KEY = '$key'" > ./backend/.env
-echo "DB_URL = 'sqlite:///./database.db'" > ./backend/.env
+echo "DB_URL = 'sqlite:///./database.db'" >> ./backend/.env
 
 echo "ENV are ready"
 

@@ -3,12 +3,15 @@ import os
 from dotenv import load_dotenv
 from typing import Annotated
 from fastapi import Depends
+
 load_dotenv()
 
 database_url = os.getenv("DB_URL")
-engine = create_engine(url=database_url, echo=True)
+connect_args = {"check_same_thread": False}
+engine = create_engine(url=database_url, connect_args=connect_args, echo=True)
 
 def create_db_and_tables():
+    print(f"database_url: {database_url}")
     SQLModel.metadata.create_all(engine)
 
 def get_session():
