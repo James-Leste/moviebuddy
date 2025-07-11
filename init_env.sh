@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 unset -v key
 unset -v ip
 print_usage() {
