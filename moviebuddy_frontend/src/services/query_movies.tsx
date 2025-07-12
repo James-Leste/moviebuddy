@@ -26,7 +26,7 @@ export async function queryMovies(
 
 export async function getMovieById(id: string): Promise<any> {
     try {
-        const response = await axios.get(`${API_URL}/api/vi/movie/${id}`)
+        const response = await axios.get(`${API_URL}/api/v1/movie/${id}`)
         return response.data
     } catch (error) {
         console.error('Error querying movies:', error)
