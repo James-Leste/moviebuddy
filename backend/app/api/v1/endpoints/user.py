@@ -12,8 +12,8 @@ from .auth import get_password_hash, CurrentUserDep, CurrentAdminUserDep
 
 router = APIRouter()
 
-@router.post("/Moviebuddies/")
-def create_Moviebuddies(moviebuddies: MoviebuddiesCreate, session: SessionDep) -> Moviebuddies:
+@router.post("/moviebuddies/")
+def create_moviebuddies(moviebuddies: MoviebuddiesCreate, session: SessionDep) -> Moviebuddies:
     hashed_password = get_password_hash(moviebuddies.plain_password)
     moviebuddies = Moviebuddies(
         **moviebuddies.model_dump(exclude={"plain_password"}),
@@ -25,8 +25,8 @@ def create_Moviebuddies(moviebuddies: MoviebuddiesCreate, session: SessionDep) -
     return moviebuddies
 
 
-@router.get("/Moviebuddies/")
-def read_Moviebuddieses(
+@router.get("/moviebuddies/")
+def read_moviebuddieses(
     session: SessionDep,
     user: CurrentAdminUserDep,
     offset: int = 0,
@@ -36,16 +36,16 @@ def read_Moviebuddieses(
     return moviebuddies_list
 
 
-@router.get("/Moviebuddies/{Moviebuddies_id}")
-def read_Moviebuddies(moviebuddies_id: uuid.UUID, session: SessionDep) -> Moviebuddies:
+@router.get("/moviebuddies/{moviebuddies_id}")
+def read_moviebuddies(moviebuddies_id: uuid.UUID, session: SessionDep) -> Moviebuddies:
     moviebuddies = session.get(Moviebuddies, moviebuddies_id)
     if not moviebuddies:
         raise HTTPException(status_code=404, detail="Moviebuddies not found")
     return moviebuddies
 
 # Danger: This endpoint is for demonstration purposes only and should not be used in production.
-@router.delete("/Moviebuddies/{Moviebuddies_id}")
-def delete_Moviebuddies(moviebuddies_id: uuid.UUID, session: SessionDep, current_user: CurrentUserDep):
+@router.delete("/moviebuddies/{moviebuddies_id}")
+def delete_moviebuddies(moviebuddies_id: uuid.UUID, session: SessionDep, current_user: CurrentUserDep):
     if current_user.id != moviebuddies_id:
         raise HTTPException(status_code=403, detail="You can only delete your own account")
     moviebuddies = session.get(Moviebuddies, moviebuddies_id)
