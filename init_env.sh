@@ -32,7 +32,7 @@ touch ./moviebuddy_frontend/.env.{production,development}.local ./backend/.env .
 echo "TMDB_API_KEY = '$key'" > ./.env.local
 echo "DB_URL = 'sqlite:///./database.db'" >> ./.env.local
 #echo "VITE_API_URL = 'http://localhost:8000/api/v1'" > ./moviebuddy_frontend/.env.development.local
-echo "VITE_API_URL = 'http://$ip/api/'" > ./moviebuddy_frontend/.env.production.local
+echo "VITE_API_URL = 'http://$ip/api'" > ./moviebuddy_frontend/.env.production.local
 echo "TMDB_API_KEY = '$key'" > ./backend/.env
 echo "DB_URL = 'sqlite:///./database.db'" >> ./backend/.env
 
