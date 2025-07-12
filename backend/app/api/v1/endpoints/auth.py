@@ -41,7 +41,7 @@ def get_user(session: SessionDep, username: str):
     if result:
         return result
     else:
-        return HTTPException(
+        raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="User not found",
             headers={"WWW-Authenticate": "Bearer"},
