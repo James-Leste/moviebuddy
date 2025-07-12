@@ -19,8 +19,9 @@ class Movie(SQLModel, table=False):
     vote_average: float | None
     vote_count: int | None
 
-class MovieFavor(Movie, table=True):
-    id: uuid.UUID | None = Field(default_factory=uuid.uuid4, primary_key=True)
-    user_id: str = Field(index=True)
+class MovieFavor(SQLModel, table=True):
+    id: uuid.UUID | None = Field(default_factory=uuid.uuid4)
+    movie_id: int = Field(index=True, primary_key=True)
+    user_id: uuid.UUID = Field(index=True, primary_key=True)
     rating: int = Field(default=5, ge=1, le=10)
     wanted: bool = Field(default=False)
