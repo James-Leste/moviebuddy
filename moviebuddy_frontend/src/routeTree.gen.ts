@@ -9,18 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as MovieListRouteRouteImport } from './routes/MovieListRoute'
-import { Route as AuthRouteRouteImport } from './routes/AuthRoute'
+import { Route as MovieListRouteImport } from './routes/movieList'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
 
-const MovieListRouteRoute = MovieListRouteRouteImport.update({
-  id: '/MovieListRoute',
-  path: '/MovieListRoute',
+const MovieListRoute = MovieListRouteImport.update({
+  id: '/movieList',
+  path: '/movieList',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthRouteRoute = AuthRouteRouteImport.update({
-  id: '/AuthRoute',
-  path: '/AuthRoute',
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -31,48 +31,48 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/AuthRoute': typeof AuthRouteRoute
-  '/MovieListRoute': typeof MovieListRouteRoute
+  '/auth': typeof AuthRoute
+  '/movieList': typeof MovieListRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/AuthRoute': typeof AuthRouteRoute
-  '/MovieListRoute': typeof MovieListRouteRoute
+  '/auth': typeof AuthRoute
+  '/movieList': typeof MovieListRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/AuthRoute': typeof AuthRouteRoute
-  '/MovieListRoute': typeof MovieListRouteRoute
+  '/auth': typeof AuthRoute
+  '/movieList': typeof MovieListRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/AuthRoute' | '/MovieListRoute'
+  fullPaths: '/' | '/auth' | '/movieList'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/AuthRoute' | '/MovieListRoute'
-  id: '__root__' | '/' | '/AuthRoute' | '/MovieListRoute'
+  to: '/' | '/auth' | '/movieList'
+  id: '__root__' | '/' | '/auth' | '/movieList'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AuthRouteRoute: typeof AuthRouteRoute
-  MovieListRouteRoute: typeof MovieListRouteRoute
+  AuthRoute: typeof AuthRoute
+  MovieListRoute: typeof MovieListRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/MovieListRoute': {
-      id: '/MovieListRoute'
-      path: '/MovieListRoute'
-      fullPath: '/MovieListRoute'
-      preLoaderRoute: typeof MovieListRouteRouteImport
+    '/movieList': {
+      id: '/movieList'
+      path: '/movieList'
+      fullPath: '/movieList'
+      preLoaderRoute: typeof MovieListRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/AuthRoute': {
-      id: '/AuthRoute'
-      path: '/AuthRoute'
-      fullPath: '/AuthRoute'
-      preLoaderRoute: typeof AuthRouteRouteImport
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -87,8 +87,8 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AuthRouteRoute: AuthRouteRoute,
-  MovieListRouteRoute: MovieListRouteRoute,
+  AuthRoute: AuthRoute,
+  MovieListRoute: MovieListRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

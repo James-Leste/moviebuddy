@@ -3,7 +3,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import AuthForm from '@/views/AuthForm'
 
-export const Route = createFileRoute('/AuthRoute')({
+export const Route = createFileRoute('/auth')({
     component: About,
 })
 

@@ -1,19 +1,24 @@
 /** @format */
 import { useState } from 'react'
 import { Form, Input, Button } from '@heroui/react'
+import axios from 'axios'
 
 export default function App() {
     const [action, setAction] = useState('')
 
     return (
-        <div className='flex flex-col items-center justify-center h-screen'>
+        <div className='flex flex-col items-center justify-center h-full'>
             <Form
-                className='w-full max-w-xs flex flex-col gap-4 items-center'
+                className='w-full max-w-sm flex flex-col gap-4 items-center mb-5'
                 onReset={() => setAction('reset')}
                 onSubmit={(e) => {
                     e.preventDefault()
                     let data = Object.fromEntries(new FormData(e.currentTarget))
 
+                    const params = new URLSearchParams()
+                    params.append('username', data.username.toString())
+                    params.append('password', data.password.toString())
+                    axios.post('http://localhost:8000/api/v1/token', params)
                     setAction(`submit ${JSON.stringify(data)}`)
                 }}
             >
@@ -30,11 +35,11 @@ export default function App() {
                 <Input
                     isRequired
                     errorMessage='Please enter a valid email'
-                    label='Email'
+                    label='Password'
                     labelPlacement='outside'
-                    name='email'
-                    placeholder='Enter your email'
-                    type='email'
+                    name='password'
+                    placeholder='Enter your password'
+                    type='password'
                 />
                 <div className='flex gap-2'>
                     <Button color='primary' type='submit'>

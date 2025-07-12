@@ -13,88 +13,58 @@ import {
 
 export const Route = createRootRoute({
     component: () => (
-        <>
-            <Navbar shouldHideOnScroll maxWidth='full'>
-                <NavbarBrand>
-                    <p className='font-bold text-inherit'>Movie Buddy V0.1</p>
-                </NavbarBrand>
-                <NavbarContent
-                    className='hidden sm:flex gap-12'
-                    justify='center'
-                >
-                    <NavbarItem>
-                        <Link color='foreground' href='/'>
-                            Me
-                        </Link>
-                    </NavbarItem>
-                    <NavbarItem>
-                        <Link color='foreground' href='/MovieListRoute'>
-                            Explore
-                        </Link>
-                    </NavbarItem>
-                    <NavbarItem>
-                        <Link color='foreground' href='/AuthRoute'>
-                            Authentication
-                        </Link>
-                    </NavbarItem>
-                </NavbarContent>
-                <NavbarContent justify='end'>
-                    <NavbarItem className='hidden lg:flex'>
-                        <Link color='foreground' href='/AuthRoute'>
-                            Login
-                        </Link>
-                    </NavbarItem>
-                    <NavbarItem>
-                        <Button
-                            as={Link}
-                            color='primary'
-                            href='/AuthRoute'
-                            variant='flat'
-                        >
-                            Sign Up
-                        </Button>
-                    </NavbarItem>
-                </NavbarContent>
-            </Navbar>
+        <div className='flex flex-col h-screen w-screen'>
+            <div>
+                <Navbar shouldHideOnScroll maxWidth='full'>
+                    <NavbarBrand>
+                        <p className='font-bold text-inherit'>
+                            Movie Buddy V0.1
+                        </p>
+                    </NavbarBrand>
+                    <NavbarContent
+                        className='hidden sm:flex gap-12'
+                        justify='center'
+                    >
+                        <NavbarItem>
+                            <Link color='foreground' href='/'>
+                                Me
+                            </Link>
+                        </NavbarItem>
+                        <NavbarItem>
+                            <Link color='foreground' href='/movieList'>
+                                Explore
+                            </Link>
+                        </NavbarItem>
+                        <NavbarItem>
+                            <Link color='foreground' href='/auth'>
+                                Authentication
+                            </Link>
+                        </NavbarItem>
+                    </NavbarContent>
+                    <NavbarContent justify='end'>
+                        <NavbarItem className='hidden lg:flex'>
+                            <Link color='foreground' href='/auth'>
+                                Login
+                            </Link>
+                        </NavbarItem>
+                        <NavbarItem>
+                            <Button
+                                as={Link}
+                                color='primary'
+                                href='/AuthRoute'
+                                variant='flat'
+                            >
+                                Sign Up
+                            </Button>
+                        </NavbarItem>
+                    </NavbarContent>
+                </Navbar>
+            </div>
 
-            {/* <Navbar shouldHideOnScroll maxWidth='full'>
-                <NavbarBrand>
-                    <p className='font-bold text-inherit'>Movie Buddy V0.1</p>
-                </NavbarBrand>
-                <NavbarContent
-                    className='hidden sm:flex gap-12'
-                    justify='center'
-                >
-                    <NavbarItem>
-                        <Link to='/'>Me</Link>
-                    </NavbarItem>
-                    <NavbarItem>
-                        <Link to='/MovieListRoute'>Explore</Link>
-                    </NavbarItem>
-                    <NavbarItem>
-                        <Link to='/AuthRoute'>Authentication</Link>
-                    </NavbarItem>
-                </NavbarContent>
-                <NavbarContent justify='end'>
-                    <NavbarItem className='hidden lg:flex'>
-                        <Link to='/AuthRoute'>Login</Link>
-                    </NavbarItem>
-                    <NavbarItem>
-                        <Button
-                            as={Link}
-                            color='primary'
-                            href='/AuthRoute'
-                            variant='flat'
-                        >
-                            Sign Up
-                        </Button>
-                    </NavbarItem>
-                </NavbarContent>
-            </Navbar> */}
-            <div className='w-screen h-screen overflow-auto'>
+            <div className='w-screen h-full'>
                 <Outlet />
             </div>
             <TanStackRouterDevtools></TanStackRouterDevtools>
-        </>
+        </div>
     ),
 })

@@ -3,7 +3,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import MovieList from '@/views/MovieList'
 
-export const Route = createFileRoute('/MovieListRoute')({
+export const Route = createFileRoute('/movieList')({
     component: Index,
 })
 
