@@ -78,6 +78,7 @@ jobs:
           rm -rf moviebuddy
           git clone git@github.com:James-Leste/moviebuddy.git
           cd ~/moviebuddy
+          ls -la
           docker compose down
           docker compose pull
           docker compose up -d
