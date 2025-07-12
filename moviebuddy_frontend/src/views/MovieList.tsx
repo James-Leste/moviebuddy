@@ -17,7 +17,6 @@ import {
 import { useMovieInfoStore, useMovieListStore } from '@/hooks/MovieInfoStore'
 import { useEffect, useState } from 'react'
 import { getMovieInfo, getMovieList } from '@/actions/movieSearch'
-import Topbar from '@/components/topbar'
 
 export default function MovieList() {
     const [name, setName] = useState('')
@@ -33,8 +32,6 @@ export default function MovieList() {
 
     return (
         <>
-            <Topbar></Topbar>
-
             <div className='flex flex-col items-center'>
                 <form
                     onSubmit={(event) => {

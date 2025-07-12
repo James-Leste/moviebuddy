@@ -13,3 +13,12 @@ export interface MovieListPagnation {
     totalPages: number
     movieList: MovieModel[]
 }
+
+export interface User {
+    id: string
+    username: string
+    email: string
+    buddiesList: string[]
+    isAdmin?: boolean
+    hashedPassword: string
+}

@@ -1,12 +1,12 @@
 /** @format */
 
 import '@/App.css'
-import MovieList from '@/views/MovieList'
+import AuthForm from '@/views/AuthForm'
 
 function App() {
     return (
         <div className='w-screen'>
-            <MovieList></MovieList>
+            <AuthForm></AuthForm>
         </div>
     )
 }
