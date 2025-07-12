@@ -78,6 +78,7 @@ jobs:
           rm -rf moviebuddy
           git clone git@github.com:James-Leste/moviebuddy.git
           cd ~/moviebuddy
+          ./init_env.sh -k ${{ secrets.API_KEY }} -p ${{ vars.EC2_HOST }}
           ls -la
           docker compose down
           docker compose pull
