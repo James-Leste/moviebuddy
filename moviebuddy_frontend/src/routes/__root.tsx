@@ -51,7 +51,7 @@ export const Route = createRootRoute({
                             <Button
                                 as={Link}
                                 color='primary'
-                                href='/AuthRoute'
+                                href='/auth'
                                 variant='flat'
                             >
                                 Sign Up
@@ -61,7 +61,10 @@ export const Route = createRootRoute({
                 </Navbar>
             </div>
 
-            <div className='w-screen h-full'>
+            <div
+                className='w-screen h-full flex flex-col align-center justify-center'
+                id='outlet'
+            >
                 <Outlet />
             </div>
             <TanStackRouterDevtools></TanStackRouterDevtools>
