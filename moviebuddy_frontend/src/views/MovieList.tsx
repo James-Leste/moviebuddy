@@ -14,14 +14,14 @@ import {
     useDisclosure,
     Pagination,
 } from '@heroui/react'
-import { useMovieInfoStore, useMovieListStore } from '@/hooks/MovieInfoStore'
+import { useCustomStore } from '@/hooks/store'
 import { useEffect, useState } from 'react'
 import { getMovieInfo, getMovieList } from '@/actions/movieSearch'
 
 export default function MovieList() {
     const [name, setName] = useState('')
-    const movieInfo = useMovieInfoStore((state) => state.meta)
-    const { totalPages, movieList } = useMovieListStore((state) => state.movies)
+    const movieInfo = useCustomStore((state) => state.meta)
+    const { totalPages, movieList } = useCustomStore((state) => state.movies)
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure()
     const [currentPage, setCurrentPage] = useState(1)

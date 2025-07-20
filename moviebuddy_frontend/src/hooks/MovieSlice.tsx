@@ -1,14 +1,14 @@
 /** @format */
 
-import { create } from 'zustand'
 import { MovieModel, MovieListPagnation } from '@/types'
+import { StateCreator } from 'zustand'
 
-interface MovieInfoStore {
+export interface MovieInfoSlice {
     meta: MovieModel
     updateMeta: (newMeta: MovieModel) => void
 }
 
-const initialMovieMeta: MovieModel = {
+export const initialMovieInfo: MovieModel = {
     id: '',
     title: 'not yet',
     overview: '',
@@ -16,29 +16,29 @@ const initialMovieMeta: MovieModel = {
     image: '',
 }
 
-interface MovieListStore {
+export interface MovieListSlice {
     movies: MovieListPagnation
     updateMovies: (newMovies: MovieListPagnation) => void
 }
 
-const initialMovieListPagnation: MovieListPagnation = {
+export const initialMovieListPagnation: MovieListPagnation = {
     pageNumber: 1,
     totalPages: 1,
     movieList: [],
 }
 
-export const useMovieInfoStore = create<MovieInfoStore>((set) => ({
-    meta: initialMovieMeta,
+export const createMovieInfoSlice: StateCreator<MovieInfoSlice> = (set) => ({
+    meta: initialMovieInfo,
     updateMeta: (newMeta: MovieModel) => {
         set({ meta: newMeta })
     },
-    reset: () => set({ meta: initialMovieMeta }),
-}))
+    reset: () => set({ meta: initialMovieInfo }),
+})
 
-export const useMovieListStore = create<MovieListStore>((set) => ({
+export const createMovieListSlice: StateCreator<MovieListSlice> = (set) => ({
     movies: initialMovieListPagnation,
     updateMovies: (newMovies: MovieListPagnation) => {
         set({ movies: newMovies })
     },
     reset: () => set({ movies: initialMovieListPagnation }),
-}))
+})
