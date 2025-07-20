@@ -34,7 +34,8 @@ async function getMovieList(name: string, page: number = 1) {
     const data = await queryMovies(name, page)
     if (data.results.length === 0) {
         console.log('No movie found')
-        useCustomStore.setState(() => ({
+        useCustomStore.setState((state) => ({
+            ...state,
             movies: initialMovieListPagnation,
         }))
         return
