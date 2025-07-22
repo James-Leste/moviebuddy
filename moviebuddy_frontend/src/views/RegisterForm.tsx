@@ -1,39 +1,70 @@
 /** @format */
-import { useState } from 'react'
-import { Form, Input, Button } from '@heroui/react'
-import axios from 'axios'
+import { useEffect, useState } from 'react'
+import { Form, Input, Button, Alert } from '@heroui/react'
+import { register } from '@/services/auth'
+import { useRouter } from '@tanstack/react-router'
 
 export default function RegisterForm() {
     const [password, setPassword] = useState('')
     const [username, setUsername] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
+    const [email, setEmail] = useState('')
     const [isPasswordMatch, setIsPasswordMatch] = useState(true)
-    const [errors, setErrors] = useState({})
+    const [isLoading, setIsLoading] = useState(false)
+    const [isSuccess, setIsSuccess] = useState(false)
+    const [error, setError] = useState('')
+    const router = useRouter()
+
+    useEffect(() => {
+        setIsPasswordMatch(password === confirmPassword)
+    }, [password, confirmPassword])
+
+    const handleSubmit = async (e: { preventDefault: () => void }) => {
+        e.preventDefault()
+        setIsLoading(true)
+        setIsSuccess(false)
+        setError('')
+        try {
+            const result = await register(username, password)
+            console.log('Register successful:', result)
+            await router.invalidate()
+            setIsSuccess(true)
+            await new Promise((resolve) => setTimeout(resolve, 5000))
+            router.navigate({ to: '/auth/login' })
+        } catch (err) {
+            setError('Registration failed.')
+            setIsSuccess(false)
+        } finally {
+            setIsLoading(false)
+        }
+    }
     return (
         <>
+            <div className='text-green-500 mb-4'>
+                {isSuccess && (
+                    <Alert
+                        color={'success'}
+                        title={`This is a success alert`}
+                    />
+                )}
+                {!isPasswordMatch && (
+                    <Alert
+                        color={'warning'}
+                        title={`Passwords do not match!`}
+                    />
+                )}
+                {error && (
+                    <Alert
+                        color={'danger'}
+                        title={`Please fill out the form.`}
+                    />
+                )}
+            </div>
+
             <h1 className='text-2xl font-bold mb-4'>Register</h1>
             <Form
-                onSubmit={(e) => {
-                    e.preventDefault()
-                    let data = Object.fromEntries(new FormData(e.currentTarget))
-                    const errors: Record<string, string> = {}
-
-                    if (!data.username) {
-                        errors.username = 'username not set'
-                    }
-
-                    if (!data.password) {
-                        errors.password = 'password is required'
-                    }
-                    setErrors(errors)
-
-                    const params = new URLSearchParams()
-                    params.append('username', data.username.toString())
-                    params.append('password', data.password.toString())
-                    axios.post('http://localhost:8000/api/v1/token', params)
-                }}
+                onSubmit={handleSubmit}
                 className='w-full max-w-xs flex flex-col gap-4'
-                validationErrors={errors}
             >
                 <Input
                     isRequired
@@ -50,6 +81,18 @@ export default function RegisterForm() {
                 <Input
                     isRequired
                     errorMessage='Please enter a valid email'
+                    label='Email'
+                    labelPlacement='outside'
+                    name='email'
+                    placeholder='Enter your email'
+                    type='email'
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+
+                <Input
+                    isRequired
+                    errorMessage='Please enter a valid email'
                     label='Password'
                     labelPlacement='outside'
                     name='password'
@@ -58,7 +101,6 @@ export default function RegisterForm() {
                     value={password}
                     onChange={(e) => {
                         setPassword(e.target.value)
-                        setIsPasswordMatch(e.target.value === confirmPassword)
                     }}
                 />
 
@@ -73,19 +115,20 @@ export default function RegisterForm() {
                     value={confirmPassword}
                     onChange={(e) => {
                         setConfirmPassword(e.target.value)
-                        setIsPasswordMatch(e.target.value === password)
                     }}
                 />
-
+                <div className='text-red-500'>{error}</div>
                 <div className='flex gap-2 mt-2'>
                     <Button
+                        isLoading={isLoading}
                         color='primary'
                         type='submit'
                         isDisabled={
                             !isPasswordMatch ||
-                            (username === '' &&
-                                password === '' &&
-                                confirmPassword === '')
+                            username == '' ||
+                            password == '' ||
+                            confirmPassword == '' ||
+                            email == ''
                         }
                     >
                         Submit
@@ -103,9 +146,6 @@ export default function RegisterForm() {
                         Reset
                     </Button>
                 </div>
-                {!isPasswordMatch && (
-                    <div className='text-red-500'>Passwords do not match!</div>
-                )}
             </Form>
         </>
     )

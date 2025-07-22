@@ -10,26 +10,28 @@ import {
     initialMovieListPagnation,
 } from './MovieSlice'
 import { TokenSlice, createTokenSlice } from './TokenSlice'
-import { MovieListPagnation, MovieModel } from '@/types'
+import { createUserSlice, initialUserState, UserSlice } from './UserSlice'
+import Cookies from 'js-cookie'
 
-export const useCustomStore = create<
-    TokenSlice & MovieInfoSlice & MovieListSlice
->()((...a) => ({
-    ...createTokenSlice(...a),
-    ...createMovieInfoSlice(...a),
-    ...createMovieListSlice(...a),
-    setToken: (token: string | null) => {
-        useCustomStore.setState({ token })
+const initialState = {
+    token: '',
+    meta: initialMovieInfo,
+    movies: initialMovieListPagnation,
+    user: initialUserState,
+}
+
+type CustomStore = TokenSlice &
+    MovieInfoSlice &
+    MovieListSlice &
+    UserSlice & { reset: () => void }
+
+export const useCustomStore = create<CustomStore>()((set, get, store) => ({
+    ...createTokenSlice(set, get, store),
+    ...createMovieInfoSlice(set, get, store),
+    ...createMovieListSlice(set, get, store),
+    ...createUserSlice(set, get, store),
+    reset: () => {
+        set(() => ({ ...initialState }))
+        Cookies.remove('token')
     },
-    setMoiveInfo: (newMeta: MovieModel) => {
-        useCustomStore.setState({ meta: newMeta })
-    },
-    setMovieList: (newMovies: MovieListPagnation) => {
-        useCustomStore.setState({ movies: newMovies })
-    },
-    reset: () => ({
-        token: '',
-        meta: initialMovieInfo,
-        movies: initialMovieListPagnation,
-    }),
 }))
