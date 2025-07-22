@@ -121,7 +121,7 @@ async def login_for_access_token(
     return Token(access_token=access_token, token_type="bearer")
 
 
-@router.get("/users/me/", response_model=Moviebuddies)
+@router.get("/users/me", response_model=Moviebuddies)
 async def read_users_me(
     current_user: Annotated[Moviebuddies, Depends(get_current_user)],
 ):

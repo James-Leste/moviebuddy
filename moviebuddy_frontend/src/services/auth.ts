@@ -35,8 +35,8 @@ const register = async (
     username: string,
     password: string,
     email: string = 'example@example.com'
-): Promise<any> => {
-    const response = await axios.post<any>(`${BASE_URL}/api/v1/moviebuddies`, {
+): Promise<User> => {
+    const response = await axios.post<User>(`${BASE_URL}/api/v1/moviebuddies`, {
         username: username,
         plain_password: password,
         email: email,

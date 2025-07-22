@@ -12,7 +12,7 @@ from .auth import get_password_hash, CurrentUserDep, CurrentAdminUserDep
 
 router = APIRouter()
 
-@router.post("/moviebuddies/")
+@router.post("/moviebuddies")
 def create_moviebuddies(moviebuddies: MoviebuddiesCreate, session: SessionDep) -> Moviebuddies:
     hashed_password = get_password_hash(moviebuddies.plain_password)
     moviebuddies = Moviebuddies(
@@ -25,7 +25,7 @@ def create_moviebuddies(moviebuddies: MoviebuddiesCreate, session: SessionDep) -
     return moviebuddies
 
 
-@router.get("/moviebuddies/")
+@router.get("/moviebuddies")
 def read_moviebuddieses(
     session: SessionDep,
     user: CurrentAdminUserDep,

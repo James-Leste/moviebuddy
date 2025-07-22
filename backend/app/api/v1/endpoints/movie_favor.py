@@ -38,7 +38,7 @@ async def create_movie_favor(movie_id: int,
         )
     return movie_favor
 
-@router.get("/movie/favor/", response_model=list[MovieFavor] | MovieFavor)
+@router.get("/movie/favor", response_model=list[MovieFavor] | MovieFavor)
 async def get_movie_favors(
     session: SessionDep,
     current_user: CurrentUserDep,
