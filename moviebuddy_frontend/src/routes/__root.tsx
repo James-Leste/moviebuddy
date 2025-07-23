@@ -1,6 +1,6 @@
 /** @format */
 
-import { createRootRoute, Outlet } from '@tanstack/react-router'
+import { createRootRoute, Outlet, useRouter } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import {
     Navbar,
@@ -13,6 +13,7 @@ import {
 import Cookies from 'js-cookie'
 import { useCustomStore } from '@/hooks/store'
 import { getUser } from '@/services/auth'
+import { LogOut } from 'lucide-react'
 
 export const Route = createRootRoute({
     loader: async () => {
@@ -44,6 +45,8 @@ export const Route = createRootRoute({
     },
     component: () => {
         const user = useCustomStore((state) => state.user)
+        const reset = useCustomStore((state) => state.reset)
+        const router = useRouter()
         return (
             <div className='flex flex-col h-screen w-screen'>
                 <div>
@@ -93,6 +96,23 @@ export const Route = createRootRoute({
                             </NavbarContent>
                         ) : (
                             <NavbarContent justify='end'>
+                                <NavbarItem>
+                                    <Button
+                                        as={Link}
+                                        color='primary'
+                                        variant='ghost'
+                                        onPress={() => {
+                                            Cookies.remove('token')
+                                            reset()
+                                            router.navigate({
+                                                to: '/movieList',
+                                            })
+                                        }}
+                                    >
+                                        <LogOut />
+                                        Logout
+                                    </Button>
+                                </NavbarItem>
                                 <NavbarItem className='hidden lg:flex'>
                                     <Link color='foreground' href='/auth/login'>
                                         {user.username}

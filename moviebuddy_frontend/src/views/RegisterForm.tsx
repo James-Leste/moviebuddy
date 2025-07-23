@@ -29,7 +29,7 @@ export default function RegisterForm() {
             console.log('Register successful:', result)
             await router.invalidate()
             setIsSuccess(true)
-            await new Promise((resolve) => setTimeout(resolve, 5000))
+            await new Promise((resolve) => setTimeout(resolve, 3000))
             router.navigate({ to: '/auth/login' })
         } catch (err) {
             setError('Registration failed.')
@@ -44,7 +44,7 @@ export default function RegisterForm() {
                 {isSuccess && (
                     <Alert
                         color={'success'}
-                        title={`This is a success alert`}
+                        title={`Registration successful! Redirecting...`}
                     />
                 )}
                 {!isPasswordMatch && (

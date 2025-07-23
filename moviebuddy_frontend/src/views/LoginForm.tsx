@@ -49,7 +49,7 @@ export default function LoginForm() {
                 {isSuccess && (
                     <Alert
                         color={'success'}
-                        title={`This is a success alert`}
+                        title={`Login successful! Redirecting...`}
                     />
                 )}
                 {error && (
