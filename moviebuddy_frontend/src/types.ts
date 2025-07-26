@@ -22,3 +22,16 @@ export interface User {
     isAdmin?: boolean
     hashedPassword: string
 }
+
+export interface UserPublicSafe {
+    id: string
+    username: string
+    full_name: string | null
+    bio: string | null
+    avatar_url: string | null
+    location: string | null
+    favorite_genres: string[]
+    is_verified: boolean
+    created_at: string
+    last_seen: string | null
+}

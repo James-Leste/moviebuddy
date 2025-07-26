@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as MovieListRouteImport } from './routes/movieList'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as UserSearchRouteImport } from './routes/user/search'
 import { Route as AuthRegisterRouteImport } from './routes/auth/register'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
 
@@ -22,6 +23,11 @@ const MovieListRoute = MovieListRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UserSearchRoute = UserSearchRouteImport.update({
+  id: '/user/search',
+  path: '/user/search',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRegisterRoute = AuthRegisterRouteImport.update({
@@ -40,12 +46,14 @@ export interface FileRoutesByFullPath {
   '/movieList': typeof MovieListRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/user/search': typeof UserSearchRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/movieList': typeof MovieListRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/user/search': typeof UserSearchRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,25 @@ export interface FileRoutesById {
   '/movieList': typeof MovieListRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/user/search': typeof UserSearchRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/movieList' | '/auth/login' | '/auth/register'
+  fullPaths:
+    | '/'
+    | '/movieList'
+    | '/auth/login'
+    | '/auth/register'
+    | '/user/search'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/movieList' | '/auth/login' | '/auth/register'
-  id: '__root__' | '/' | '/movieList' | '/auth/login' | '/auth/register'
+  to: '/' | '/movieList' | '/auth/login' | '/auth/register' | '/user/search'
+  id:
+    | '__root__'
+    | '/'
+    | '/movieList'
+    | '/auth/login'
+    | '/auth/register'
+    | '/user/search'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +87,7 @@ export interface RootRouteChildren {
   MovieListRoute: typeof MovieListRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
+  UserSearchRoute: typeof UserSearchRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -83,6 +104,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/user/search': {
+      id: '/user/search'
+      path: '/user/search'
+      fullPath: '/user/search'
+      preLoaderRoute: typeof UserSearchRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth/register': {
@@ -107,6 +135,7 @@ const rootRouteChildren: RootRouteChildren = {
   MovieListRoute: MovieListRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthRegisterRoute: AuthRegisterRoute,
+  UserSearchRoute: UserSearchRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
