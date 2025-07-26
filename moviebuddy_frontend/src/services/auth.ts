@@ -34,7 +34,7 @@ const login = async (
 const register = async (
     username: string,
     password: string,
-    email: string = 'example@example.com'
+    email: string
 ): Promise<User> => {
     const response = await axios.post<User>(`${BASE_URL}/api/v1/moviebuddies`, {
         username: username,

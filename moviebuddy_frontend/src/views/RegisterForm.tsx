@@ -25,7 +25,7 @@ export default function RegisterForm() {
         setIsSuccess(false)
         setError('')
         try {
-            const result = await register(username, password)
+            const result = await register(username, password, email)
             console.log('Register successful:', result)
             await router.invalidate()
             setIsSuccess(true)
