@@ -5,3 +5,5 @@
 
 *.md
 *.yaml
+
+*.gen.ts
