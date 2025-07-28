@@ -55,7 +55,7 @@ export default function LoginForm() {
                 {error && (
                     <Alert
                         color={'danger'}
-                        title={`Please fill out the form.`}
+                        title={`Invalid username or password. Please try again.`}
                     />
                 )}
             </div>

@@ -21,8 +21,9 @@ function RouteComponent() {
                             onPress={() =>
                                 router.navigate({ to: '/auth/register' })
                             }
+                            className='text-sm'
                         >
-                            Switch to Register
+                            Don't have an account? Register
                         </Link>
                     </div>
                 </div>
