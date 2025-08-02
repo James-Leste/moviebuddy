@@ -1,18 +1,18 @@
 /** @format */
 
 import { StateCreator } from 'zustand'
-import { User } from '@/types'
+import { UserPublicSafe } from '@/types'
 
 export interface UserSlice {
-    user: User | null
-    setUser: (user: User | null) => void
+    user: UserPublicSafe | null
+    setUser: (user: UserPublicSafe | null) => void
     resetUser: () => void
 }
 
-export const initialUserState: User | null = null
+export const initialUserState: UserPublicSafe | null = null
 export const createUserSlice: StateCreator<UserSlice> = (set) => ({
     user: initialUserState,
-    setUser: (user: User | null) => {
+    setUser: (user: UserPublicSafe | null) => {
         set({ user })
     },
     resetUser: () => set({ user: initialUserState }),

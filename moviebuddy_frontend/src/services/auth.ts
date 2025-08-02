@@ -2,7 +2,7 @@
 
 import axios from 'axios'
 import { api } from '@/services/fetch'
-import { User } from '@/types'
+import { User, UserPublicSafe } from '@/types'
 
 interface LoginResponse {
     access_token: string
@@ -49,7 +49,7 @@ const register = async (
     return response.data
 }
 
-const getUser = async (): Promise<User> => {
+const getUser = async (): Promise<UserPublicSafe> => {
     const response = await api.get(`${BASE_URL}/api/v1/users/me`)
 
     if (response.status !== 200) {

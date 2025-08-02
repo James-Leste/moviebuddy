@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as MovieListRouteImport } from './routes/movieList'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as UserSearchRouteImport } from './routes/user/search'
+import { Route as UserPersonalRouteImport } from './routes/user/personal'
 import { Route as AuthRegisterRouteImport } from './routes/auth/register'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
 
@@ -30,6 +31,11 @@ const UserSearchRoute = UserSearchRouteImport.update({
   path: '/user/search',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UserPersonalRoute = UserPersonalRouteImport.update({
+  id: '/user/personal',
+  path: '/user/personal',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRegisterRoute = AuthRegisterRouteImport.update({
   id: '/auth/register',
   path: '/auth/register',
@@ -46,6 +52,7 @@ export interface FileRoutesByFullPath {
   '/movieList': typeof MovieListRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/user/personal': typeof UserPersonalRoute
   '/user/search': typeof UserSearchRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +60,7 @@ export interface FileRoutesByTo {
   '/movieList': typeof MovieListRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/user/personal': typeof UserPersonalRoute
   '/user/search': typeof UserSearchRoute
 }
 export interface FileRoutesById {
@@ -61,6 +69,7 @@ export interface FileRoutesById {
   '/movieList': typeof MovieListRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/user/personal': typeof UserPersonalRoute
   '/user/search': typeof UserSearchRoute
 }
 export interface FileRouteTypes {
@@ -70,15 +79,23 @@ export interface FileRouteTypes {
     | '/movieList'
     | '/auth/login'
     | '/auth/register'
+    | '/user/personal'
     | '/user/search'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/movieList' | '/auth/login' | '/auth/register' | '/user/search'
+  to:
+    | '/'
+    | '/movieList'
+    | '/auth/login'
+    | '/auth/register'
+    | '/user/personal'
+    | '/user/search'
   id:
     | '__root__'
     | '/'
     | '/movieList'
     | '/auth/login'
     | '/auth/register'
+    | '/user/personal'
     | '/user/search'
   fileRoutesById: FileRoutesById
 }
@@ -87,6 +104,7 @@ export interface RootRouteChildren {
   MovieListRoute: typeof MovieListRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
+  UserPersonalRoute: typeof UserPersonalRoute
   UserSearchRoute: typeof UserSearchRoute
 }
 
@@ -113,6 +131,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UserSearchRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/user/personal': {
+      id: '/user/personal'
+      path: '/user/personal'
+      fullPath: '/user/personal'
+      preLoaderRoute: typeof UserPersonalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth/register': {
       id: '/auth/register'
       path: '/auth/register'
@@ -135,6 +160,7 @@ const rootRouteChildren: RootRouteChildren = {
   MovieListRoute: MovieListRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthRegisterRoute: AuthRegisterRoute,
+  UserPersonalRoute: UserPersonalRoute,
   UserSearchRoute: UserSearchRoute,
 }
 export const routeTree = rootRouteImport
