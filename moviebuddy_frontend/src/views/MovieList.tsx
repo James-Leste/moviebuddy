@@ -26,35 +26,52 @@ export default function MovieList() {
     const { isOpen, onOpen, onOpenChange } = useDisclosure()
     const [currentPage, setCurrentPage] = useState(1)
 
-    useEffect(() => {
-        getMovieList(name, currentPage)
-    }, [currentPage])
-
     return (
-        <>
-            <div className='flex flex-col items-center'>
+        <div className='mt-8 w-full flex flex-col items-center justify-start'>
+            <div className='flex flex-col items-center justify-center'>
                 <form
                     onSubmit={(event) => {
                         event.preventDefault()
                         getMovieList(name)
                         setCurrentPage(1)
                     }}
-                    className='flex flex-row items-center w-80'
+                    className='flex flex-row items-center gap-3 bg-white/80 p-4 rounded-xl shadow-md border border-gray-100 w-full max-w-xl mb-4'
                 >
-                    <Input
-                        label='Movie name'
+                    <input
                         type='text'
                         value={name}
-                        onValueChange={setName}
+                        onChange={(e) => setName(e.target.value)}
+                        className='flex-1 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow text-base transition-all duration-200 bg-gray-50 placeholder:text-gray-400 px-4 py-2 mr-2'
+                        placeholder='Search for a movie...'
+                        autoFocus
                     />
-                    <Button type='submit'>click me</Button>
+                    <button
+                        type='submit'
+                        className='rounded-lg px-5 py-2 font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-all duration-200 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-blue-300'
+                    >
+                        <svg
+                            xmlns='http://www.w3.org/2000/svg'
+                            fill='none'
+                            viewBox='0 0 24 24'
+                            strokeWidth={2}
+                            stroke='currentColor'
+                            className='w-5 h-5'
+                        >
+                            <path
+                                strokeLinecap='round'
+                                strokeLinejoin='round'
+                                d='M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z'
+                            />
+                        </svg>
+                        <span className='hidden sm:inline'>Search</span>
+                    </button>
                 </form>
 
-                <div className='flex flex-row w-full overflow-x-scrol overflow-y-hidden'>
+                <div className='flex flex-wrap justify-center mt-4'>
                     {movieList.map((movie) => (
                         <div key={movie.id} className='m-2 py-2'>
                             <Card
-                                className='py-4 max-h-108 overflow-y-scroll'
+                                className='py-4 max-h-108 overflow-y-hidden'
                                 onPress={async () => {
                                     await getMovieInfo(movie.id)
                                     onOpen()
@@ -88,12 +105,16 @@ export default function MovieList() {
                 </div>
             </div>
 
-            <div className='flex flex-col gap-5 w-full items-center my-5'>
+            <div>
                 <Pagination
                     color='secondary'
                     page={currentPage}
                     total={totalPages}
-                    onChange={setCurrentPage}
+                    onChange={(page: number) => {
+                        setCurrentPage(page)
+                        console.log(`Current page: ${page}`)
+                        getMovieList(name, page)
+                    }}
                 />
             </div>
 
@@ -138,6 +159,6 @@ export default function MovieList() {
                     )}
                 </ModalContent>
             </Modal>
-        </>
+        </div>
     )
 }
