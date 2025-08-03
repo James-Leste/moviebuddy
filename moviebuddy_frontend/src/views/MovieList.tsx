@@ -3,7 +3,6 @@ import {
     Card,
     Image,
     Button,
-    Input,
     CardHeader,
     CardBody,
     Modal,
@@ -15,7 +14,7 @@ import {
     Pagination,
 } from '@heroui/react'
 import { useCustomStore } from '@/hooks/store'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { getMovieInfo, getMovieList } from '@/actions/movieSearch'
 
 export default function MovieList() {
@@ -27,8 +26,8 @@ export default function MovieList() {
     const [currentPage, setCurrentPage] = useState(1)
 
     return (
-        <div className='mt-8 w-full flex flex-col items-center justify-start'>
-            <div className='flex flex-col items-center justify-center'>
+        <div className='mt-8 w-full flex flex-col items-center justify-start h-full'>
+            <div className='flex flex-col items-center justify-center w-full py-4'>
                 <form
                     onSubmit={(event) => {
                         event.preventDefault()
@@ -104,15 +103,13 @@ export default function MovieList() {
                     ))}
                 </div>
             </div>
-
-            <div>
+            <div className='flex flex-col items-center justify-center w-full'>
                 <Pagination
                     color='secondary'
                     page={currentPage}
                     total={totalPages}
                     onChange={(page: number) => {
                         setCurrentPage(page)
-                        console.log(`Current page: ${page}`)
                         getMovieList(name, page)
                     }}
                 />
