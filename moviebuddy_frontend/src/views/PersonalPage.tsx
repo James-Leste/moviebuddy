@@ -1,10 +1,45 @@
 /** @format */
 
+import { useEffect, useState } from 'react'
 import { useCustomStore } from '@/hooks/store'
+import { getMovieFavorByUser } from '@/services/moviefavor'
+import { getMovieById } from '@/services/query_movies'
 import { UserPublicSafe } from '@/types'
 
 export const PersonalPage = () => {
     const user = useCustomStore((state) => state.user)
+    const [favoriteMovies, setFavoriteMovies] = useState<any[]>([])
+    const [loadingFavors, setLoadingFavors] = useState(true)
+    const [favorError, setFavorError] = useState<string | null>(null)
+
+    useEffect(() => {
+        const fetchFavorsAndMovies = async () => {
+            try {
+                const favors = await getMovieFavorByUser()
+                const favorList = Array.isArray(favors) ? favors : [favors]
+
+                // Fetch movie info for each favor
+                const movies: any[] = []
+                for (const favor of favorList) {
+                    try {
+                        const movie = await getMovieById(favor.movie_id)
+                        movies.push(movie)
+                    } catch (err) {
+                        movies.push({
+                            id: favor.movie_id,
+                            error: 'Failed to fetch movie info.',
+                        })
+                    }
+                }
+                setFavoriteMovies(movies)
+            } catch (err) {
+                setFavorError('Failed to load favorite movies.')
+            } finally {
+                setLoadingFavors(false)
+            }
+        }
+        fetchFavorsAndMovies()
+    }, [])
 
     if (!user) {
         return (
@@ -104,6 +139,58 @@ export const PersonalPage = () => {
                             : 'Never'}
                     </p>
                 </div>
+            </div>
+
+            {/* Favorite Movies Section */}
+            <div className='mt-8'>
+                <h2 className='text-lg font-semibold text-gray-700 mb-2'>
+                    Favorite Movies
+                </h2>
+                {loadingFavors ? (
+                    <p className='text-gray-400'>Loading...</p>
+                ) : favorError ? (
+                    <p className='text-red-500'>{favorError}</p>
+                ) : favoriteMovies.length > 0 ? (
+                    <div className='flex flex-wrap gap-4'>
+                        {favoriteMovies.map((movie) => (
+                            <div
+                                key={movie.id}
+                                className='w-48 p-4 bg-gray-100 rounded-lg shadow flex flex-col items-center justify-center text-center'
+                            >
+                                {movie.error ? (
+                                    <span className='text-red-400'>
+                                        {movie.error}
+                                    </span>
+                                ) : (
+                                    <>
+                                        <img
+                                            src={
+                                                movie.poster_path
+                                                    ? `https://image.tmdb.org/t/p/original/${movie.poster_path}`
+                                                    : '/movie_logo.svg'
+                                            }
+                                            alt={movie.title}
+                                            className='w-32 h-48 object-cover rounded mb-2'
+                                        />
+                                        <div className='font-bold text-base text-gray-800 mb-1'>
+                                            {movie.title}
+                                        </div>
+                                        <div className='text-xs text-gray-500 mb-1'>
+                                            ID: {movie.id}
+                                        </div>
+                                        <div className='text-sm text-gray-600 line-clamp-3'>
+                                            {movie.overview}
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <span className='text-gray-400'>
+                        No favorite movies found.
+                    </span>
+                )}
             </div>
         </div>
     )

@@ -12,10 +12,12 @@ import {
     ModalFooter,
     useDisclosure,
     Pagination,
+    Alert,
 } from '@heroui/react'
 import { useCustomStore } from '@/hooks/store'
 import { useState } from 'react'
 import { getMovieInfo, getMovieList } from '@/actions/movieSearch'
+import { createMovieFavor } from '@/services/moviefavor'
 
 export default function MovieList() {
     const [name, setName] = useState('')
@@ -24,6 +26,10 @@ export default function MovieList() {
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure()
     const [currentPage, setCurrentPage] = useState(1)
+    const [movieFavorError, setMovieFavorError] = useState<string | null>(null)
+    const [movieFavorSuccess, setMovieFavorSuccess] = useState<string | null>(
+        null
+    )
 
     return (
         <div className='mt-8 w-full flex flex-col items-center justify-start h-full'>
@@ -92,7 +98,11 @@ export default function MovieList() {
                                     <Image
                                         alt='Card background'
                                         className='object-cover rounded-xl'
-                                        src={`https://image.tmdb.org/t/p/original/${movie.image}`}
+                                        src={
+                                            movie.image
+                                                ? `https://image.tmdb.org/t/p/original/${movie.image}`
+                                                : '/movie_logo.svg'
+                                        }
                                         width={270}
                                         height={360}
                                         isBlurred
@@ -119,7 +129,11 @@ export default function MovieList() {
 
             <Modal
                 isOpen={isOpen}
-                onOpenChange={onOpenChange}
+                onOpenChange={() => {
+                    onOpenChange()
+                    setMovieFavorError(null)
+                    setMovieFavorSuccess(null)
+                }}
                 scrollBehavior='inside'
                 size='lg'
             >
@@ -129,16 +143,34 @@ export default function MovieList() {
                             <ModalHeader className='flex flex-col gap-1'>
                                 {movieInfo.title}
                             </ModalHeader>
-                            <ModalBody className='flex flex-row justify-center'>
-                                <div className='w-1/2'>
-                                    <Image
-                                        src={`https://image.tmdb.org/t/p/original/${movieInfo.image}`}
-                                        alt='Card background'
+                            <ModalBody className='flex flex-col gap-4'>
+                                {movieFavorError && (
+                                    <Alert
+                                        color={'danger'}
+                                        title={movieFavorError}
                                     />
+                                )}
+                                {movieFavorSuccess && (
+                                    <Alert
+                                        color={'success'}
+                                        title={movieFavorSuccess}
+                                    />
+                                )}
+                                <div className='flex flex-row justify-center gap-5'>
+                                    <div className='w-1/2'>
+                                        <Image
+                                            src={
+                                                movieInfo.image
+                                                    ? `https://image.tmdb.org/t/p/original/${movieInfo.image}`
+                                                    : '/movie_logo.svg'
+                                            }
+                                            alt='Card background'
+                                        />
+                                    </div>
+                                    <p className='w-1/2 h-full'>
+                                        {movieInfo.overview}
+                                    </p>
                                 </div>
-                                <p className='w-1/2 h-full'>
-                                    {movieInfo.overview}
-                                </p>
                             </ModalBody>
                             <ModalFooter>
                                 <Button
@@ -148,8 +180,29 @@ export default function MovieList() {
                                 >
                                     Close
                                 </Button>
-                                <Button color='primary' onPress={onClose}>
-                                    Action
+                                <Button
+                                    color='primary'
+                                    onPress={async () => {
+                                        // onClose()
+                                        try {
+                                            setMovieFavorError(null)
+                                            setMovieFavorSuccess(null)
+                                            await createMovieFavor(movieInfo.id)
+                                            setMovieFavorSuccess(
+                                                `The movie ${movieInfo.title} has been added to your favorites!`
+                                            )
+                                        } catch (error) {
+                                            console.error(
+                                                'Error creating movie favor:',
+                                                error
+                                            )
+                                            setMovieFavorError(
+                                                `The movie ${movieInfo.title} is already in your favorites.`
+                                            )
+                                        }
+                                    }}
+                                >
+                                    Add to favorites
                                 </Button>
                             </ModalFooter>
                         </>

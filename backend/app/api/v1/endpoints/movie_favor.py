@@ -15,7 +15,7 @@ from .auth import get_password_hash, CurrentUserDep, CurrentAdminUserDep
 
 router = APIRouter()
 
-@router.post("/movie/favor/{movie_id}", response_model=MovieFavor)
+@router.post("/favor/{movie_id}", response_model=MovieFavor)
 async def create_movie_favor(movie_id: int,
                              session: SessionDep,
                              current_user: CurrentUserDep,
@@ -38,7 +38,7 @@ async def create_movie_favor(movie_id: int,
         )
     return movie_favor
 
-@router.get("/movie/favor", response_model=list[MovieFavor] | MovieFavor)
+@router.get("/favor")
 async def get_movie_favors(
     session: SessionDep,
     current_user: CurrentUserDep,
@@ -76,12 +76,13 @@ async def get_movie_favors(
         query = query.where(MovieFavor.movie_id == movie_id)
     
     if not user_id and not movie_id and not favor_id:
+
         query = query.where(MovieFavor.user_id == current_user.id).offset(offset).limit(limit)
 
     result = session.exec(query)
     return result.all()
 
-@router.delete("/movie/favor/{movie_favor_id}")
+@router.delete("/favor/{movie_favor_id}")
 async def delete_movie_favor(
     movie_favor_id: int,
     session: SessionDep,

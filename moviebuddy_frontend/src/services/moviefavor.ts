@@ -8,15 +8,10 @@ export const createMovieFavor = async (
     rating: number = 0,
     wanted: boolean = false
 ): Promise<MovieFavor> => {
-    const response = await api.post<MovieFavor>(
-        `/api/v1/movie/favor/${movie_id}`,
-        {
-            params: {
-                rating: rating,
-                wanted: wanted,
-            },
-        }
-    )
+    const response = await api.post<MovieFavor>(`/api/v1/favor/${movie_id}`, {
+        rating: rating,
+        wanted: wanted,
+    })
 
     if (response.status !== 200) {
         throw new Error('Failed to create movie favor')
@@ -26,7 +21,7 @@ export const createMovieFavor = async (
 }
 
 export const getMovieFavorByUser = async (): Promise<MovieFavor> => {
-    const response = await api.get<MovieFavor>(`/api/v1/movie/favor/`)
+    const response = await api.get<MovieFavor>(`/api/v1/favor/`)
 
     if (response.status !== 200) {
         throw new Error('Failed to fetch movie favor')

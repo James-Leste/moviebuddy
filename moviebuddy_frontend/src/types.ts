@@ -35,3 +35,11 @@ export interface UserPublicSafe {
     created_at: string
     last_seen: string | null
 }
+
+export interface MovieFavor {
+    id: string
+    movie_id: string
+    user_id: string
+    rating: number
+    wanted: boolean
+}
