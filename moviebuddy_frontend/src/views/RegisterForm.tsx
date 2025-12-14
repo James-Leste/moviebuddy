@@ -64,7 +64,7 @@ export default function RegisterForm() {
             <h1 className='text-2xl font-bold mb-4'>Register</h1>
             <Form
                 onSubmit={handleSubmit}
-                className='w-full max-w-xs flex flex-col gap-4'
+                className='w-full flex flex-col gap-y-4 gap-x-0'
             >
                 <Input
                     isRequired
